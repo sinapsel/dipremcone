@@ -26,19 +26,20 @@ public class Client extends Service{
     public void start() throws Exception{
         //String KEY = "FHNLYSEPEZSGCRDZ";
         java.util.Scanner in = new java.util.Scanner(System.in);
-        if(this.controllHost == null){
+        if(super.controllHost == null){
             System.out.println("ENTER THE ADDRESS");
             setControllHost(in.next());
             setManageSection("client.php");
         }
-        if(this.KEY == null){
+        if(super.KEY == null){
             System.out.println("ENTER THE PRESENT KEY OR PRESS ENTER TO REG");
             setKEY(in.next());
         }
+        
         java.util.Map<String, String> Params = new java.util.HashMap<>();
-        Params.put("KEY", this.KEY);
+        Params.put("KEY", super.KEY);
         Params.put("PCUser", System.getProperty("user.name"));
-        Threads.ClientThread thread = new Threads.ClientThread(Params);
+        Threads.ClientThread thread = new Threads.ClientThread(Params, super.KEY, super.controllHost, super.manageSection);
         thread.run();
     }
 }

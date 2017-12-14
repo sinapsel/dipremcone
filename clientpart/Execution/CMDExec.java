@@ -4,39 +4,47 @@ import java.io.*;
 import java.util.*;
 
 public class CMDExec {
-    public static String execute(String command) throws IOException{
-        if(command.equals("NOCMD")) return "NORES";
-        Process prc = (Runtime.getRuntime().exec("sh"));
+
+    public static String execute(String command) throws IOException {
+        if (command.equals("NOCMD")) {
+            return "NORES";
+        }
+        String osType = System.getProperty("os.name").toLowerCase();
+        String estr;
+        if (osType.contains("win")) {
+            estr = "cmd.exe";
+        } else {
+            estr = "sh";
+        }
         
-        OutputStream stdin = prc.getOutputStream();
+        Process prc = (Runtime.getRuntime().exec(estr));
+
         InputStream stderr = prc.getErrorStream();
         InputStream stdout = prc.getInputStream();
-        
-        String incmd = "firefox\n";
-        stdin.write(incmd.getBytes());
+        OutputStream stdin = prc.getOutputStream();
+
+        stdin.write(command.getBytes());
         stdin.flush();
         stdin.close();
-        
-        
-        //OutputStream isr = prc.getOutputStream();
-        System.out.println("sss---");
-        //isr.write("ls".getBytes());
-        InputStream osr = prc.getInputStream();
-        System.out.println(osr.read());
-        BufferedReader br = new BufferedReader(new InputStreamReader(prc.getInputStream(), "UTF-8"));
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(stdout, "CP1251"));
         String l;
         StringBuilder sb = new StringBuilder();
-        while ((l=br.readLine())!=null) {
+        while ((l = br.readLine()) != null) {
             sb.append(l).append("\n");
         }
-        System.out.println(sb.toString());
+        //System.out.println(sb.toString());
+        br = new BufferedReader(new InputStreamReader(stderr, "CP1251"));
+        while ((l = br.readLine()) != null) {
+            sb.append(l).append("\n");
+        }
+        //System.out.println(sb.toString());
         return sb.toString();
     }
-    
 
-    public static HashMap execute(String[] command) throws IOException{
+    public static HashMap execute(String[] command) throws IOException {
         Map<String, String> hm = new HashMap<>();
-        for(String cmd: command){
+        for (String cmd : command) {
             hm.put(cmd, execute(cmd));
         }
         return (HashMap) hm;

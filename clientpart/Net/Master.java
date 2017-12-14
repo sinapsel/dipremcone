@@ -35,11 +35,12 @@ public class Master extends Service {
             site = new HTTPPost(getAddr(), Params, "POST");
             site.connect();
             System.out.println(site.getResponse());
-            String id = in.next();
+            String id = in.nextLine();
             if (id.equals("e")) {
                 break;
             }
-            Threads.MasterThread thread = new Threads.MasterThread(Params);
+            Params.put("id", id);
+            Threads.MasterThread thread = new Threads.MasterThread(Params, super.KEY, super.controllHost, super.manageSection);
             thread.run();
         }
     }
