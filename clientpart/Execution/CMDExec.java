@@ -13,7 +13,10 @@ public class CMDExec {
         String estr;
         if (osType.contains("win")) {
             estr = "cmd.exe";
-        } else {
+            if (command.charAt(command.length() - 1) != '\n'){
+                command = command.concat("\n");
+            }
+        }  else {
             estr = "sh";
         }
         
@@ -27,14 +30,14 @@ public class CMDExec {
         stdin.flush();
         stdin.close();
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(stdout, "CP1251"));
+        BufferedReader br = new BufferedReader(new InputStreamReader(stdout, "CP866"));
         String l;
         StringBuilder sb = new StringBuilder();
         while ((l = br.readLine()) != null) {
             sb.append(l).append("\n");
         }
         //System.out.println(sb.toString());
-        br = new BufferedReader(new InputStreamReader(stderr, "CP1251"));
+        br = new BufferedReader(new InputStreamReader(stderr, "CP866"));
         while ((l = br.readLine()) != null) {
             sb.append(l).append("\n");
         }
