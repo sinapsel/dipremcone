@@ -41,7 +41,7 @@ public class MasterThread extends Net.Master implements Runnable {
                     String resp = site.getResponse();
                     System.out.println(">>\n".concat(resp).concat("\n"));
                 } catch (Exception e) {
-                    System.out.println(e.toString());
+                    System.err.println("Unable to connect server "  + super.controllHost);
                 }
             }
         } catch (Exception e) {

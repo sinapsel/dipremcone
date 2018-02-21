@@ -37,11 +37,10 @@ public class ClientThread extends Service implements Runnable {
                     System.out.println(site.getResponse());
                     TimeUnit.MILLISECONDS.sleep(this.timeDelay);
                 } catch (Exception e) {
-                    //e.printStackTrace();
+                    System.err.println("Unable to connect server "  + super.controllHost);
                 }
             }
         } catch (Exception e) {
-            //e.printStackTrace();
         }
     }
 
